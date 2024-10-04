@@ -22,14 +22,20 @@ jobs:
           pip install -r requirements.txt
           playwright install
 
-      - name: Run Playwright Tests
+      - name: Run Playwright Tests and collect coverage
         run: |
           source .venv/bin/activate
-          pytest Lab1/tests/tests.py --verbose
+          pytest Lab1/tests/tests.py --cov=Lab1 --cov-report=html --cov-report=term-missing --cov-fail-under=80
 
-      - name: Upload Test Report
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-report
-          path: Lab1/tests/reports/
+       - name: Upload Coverage Report
+           uses: actions/upload-artifact@v3
+           with:
+             name: coverage-report
+             path: htmlcov/
+
+       - name: Upload Test Report
+           uses: actions/upload-artifact@v3
+           with:
+             name: test-report
+             path: Lab1/tests/reports/
 
